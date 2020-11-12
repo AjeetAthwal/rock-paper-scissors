@@ -22,16 +22,42 @@
             let computerSelectionLowerCase = computerSelection.toLowerCase();
 
             let playerWin = true;
-            if (playerSelection === computerSelection) return "Draw!"
-            else if (playerSelectionLowerCase === "rock") {
-                if (computerSelectionLowerCase === "scissors") playerWin = true;
-                else if (computerSelectionLowerCase === "paper") playerWin = false;
-            } else if (playerSelectionLowerCase === "paper") {
-                if (computerSelectionLowerCase === "rock") playerWin = true;
-                else if (computerSelectionLowerCase === "scissors") playerWin = false;
-            } else if (playerSelectionLowerCase === "scissors") {
-                if (computerSelectionLowerCase === "paper") playerWin = true;
-                else if (computerSelectionLowerCase === "rock") playerWin = false;
+
+            if (playerSelection === computerSelection) return "Draw!";
+            switch (playerSelectionLowerCase) {
+                case "rock":
+                    switch (computerSelectionLowerCase) {
+                        case "scissors":
+                            playerWin = true;
+                            break
+                        case "paper":
+                            playerWin = false;
+                            break
+
+                    }
+                    break;
+                case "paper":
+                    switch (computerSelectionLowerCase) {
+                        case "rock":
+                            playerWin = true;
+                            break
+                        case "scissors":
+                            playerWin = false;
+                            break
+
+                    }
+                    break;
+                case "scissors":
+                    switch (computerSelectionLowerCase) {
+                        case "paper":
+                            playerWin = true;
+                            break
+                        case "rock":
+                            playerWin = false;
+                            break
+
+                    }
+                    break;
             }
 
             if (playerWin) return "You win! " + playerSelectionLowerCase + " beats " +
@@ -39,9 +65,33 @@
             else return "You lose! " + computerSelectionLowerCase + " beats " + playerSelectionLowerCase;
         }
 
-        const playerSelection = "rock";
-        const computerSelection = computerPlay();
-        console.log(playRound(playerSelection, computerSelection));
+        function game() {
+            let totalGames = 5;
+            let playerWins = 0;
+            let draws = 0;
+
+            for (let gameNumber = 0; gameNumber < totalGames; gameNumber++) {
+                let playerSelection = "rock";
+                let computerSelection = computerPlay();
+                let result = playRound(playerSelection, computerSelection);
+                console.log(result);
+                if (result === "Draw!") draws++;
+                else if (result.substring(0, 7) == "You win") playerWins++;
+            }
+
+            let computerWins = totalGames - playerWins - draws;
+            let computerFinalWin = false;
+            let playerFinalWin = false;
+            if (playerWins > computerWins) playerFinalWin = true;
+            else if (computerWins > playerWins) computerFinalWin = true;
+
+            console.log("Final Score:\nPlayer " + playerWins + ", Computer " + computerWins + ", Draws " + draws)
+            if (playerFinalWin === true) console.log("Player Wins!")
+            else if (computerFinalWin === true) console.log("Computer Wins!")
+            else console.log("Draw!")
+
+        }
+        game()
     </script>
 </body>
 
