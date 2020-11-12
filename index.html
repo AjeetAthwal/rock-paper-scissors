@@ -8,7 +8,40 @@
 
 <body>
     <script>
+        // write function that plays one round of the game
 
+        function computerPlay() {
+            let num = Math.floor(3 * Math.random());
+            if (num == 0) return "rock"
+            else if (num == 1) return "scissors";
+            return "paper";
+        }
+
+        function playRound(playerSelection, computerSelection) {
+            let playerSelectionLowerCase = playerSelection.toLowerCase();
+            let computerSelectionLowerCase = computerSelection.toLowerCase();
+
+            let playerWin = true;
+            if (playerSelection === computerSelection) return "Draw!"
+            else if (playerSelectionLowerCase === "rock") {
+                if (computerSelectionLowerCase === "scissors") playerWin = true;
+                else if (computerSelectionLowerCase === "paper") playerWin = false;
+            } else if (playerSelectionLowerCase === "paper") {
+                if (computerSelectionLowerCase === "rock") playerWin = true;
+                else if (computerSelectionLowerCase === "scissors") playerWin = false;
+            } else if (playerSelectionLowerCase === "scissors") {
+                if (computerSelectionLowerCase === "paper") playerWin = true;
+                else if (computerSelectionLowerCase === "rock") playerWin = false;
+            }
+
+            if (playerWin) return "You win! " + playerSelectionLowerCase + " beats " +
+                computerSelectionLowerCase;
+            else return "You lose! " + computerSelectionLowerCase + " beats " + playerSelectionLowerCase;
+        }
+
+        const playerSelection = "rock";
+        const computerSelection = computerPlay();
+        console.log(playRound(playerSelection, computerSelection));
     </script>
 </body>
 
