@@ -71,7 +71,7 @@
             let draws = 0;
 
             for (let gameNumber = 0; gameNumber < totalGames; gameNumber++) {
-                let playerSelection = "rock";
+                let playerSelection = prompt("ROCK, PAPER, SCISSORS GO!");
                 let computerSelection = computerPlay();
                 let result = playRound(playerSelection, computerSelection);
                 console.log(result);
