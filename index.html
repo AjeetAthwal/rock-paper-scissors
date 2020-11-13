@@ -22,7 +22,7 @@
     <button class="rps-choice" data-rps-type="paper">Paper</button>
     <button class="rps-choice" data-rps-type="scissors">Scissors</button>
 </div>
-<div class="announcement"></div>
+<div class="reset-scores"><button>Reset</button></div>
 <div class="results-text"></div>
 <body>
     <script>
@@ -158,7 +158,18 @@
         }
 
         const rpsChoice = document.querySelectorAll(".rps-choice");
-        rpsChoice.forEach(key => key.addEventListener("click", playRoundListener))
+        rpsChoice.forEach(key => key.addEventListener("click", playRoundListener));
+
+        function resetScores(){
+            gamesPlayed = 0;
+            document.querySelector(".player-score").querySelector(".score-number").innerText = 0;
+            document.querySelector(".computer-score").querySelector(".score-number").innerText = 0;
+            document.querySelector(".results-text").innerHTML = "";
+            rpsChoice.forEach(key => key.addEventListener("click", playRoundListener));
+        }
+
+        const scoreReset = document.querySelector(".reset-scores").querySelector("button");
+        scoreReset.addEventListener("click", resetScores);
     </script>
 </body>
 
