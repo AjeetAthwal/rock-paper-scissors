@@ -5,9 +5,24 @@
 
     <title>Rock Paper Scissors</title>
 </head>
-<button class="rps-choice" data-rps-type="rock">Rock</button>
-<button class="rps-choice" data-rps-type="paper">Paper</button>
-<button class="rps-choice" data-rps-type="scissors">Scissors</button>
+<h1>Rock Paper Scissors</h1>
+<h2>Best of 5 rounds</h2>
+<div class="scores">
+    <div class="player-score">
+        <h3 class="score-name">Player:</h3>
+        <h3 class="score-number">0</h3>
+    </div>
+    <div class="computer-score">
+        <h3 class="score-name">Computer:</h3>
+        <h3 class="score-number">0</h3>
+    </div>
+</div>
+<div class="rps-choices">
+    <button class="rps-choice" data-rps-type="rock">Rock</button>
+    <button class="rps-choice" data-rps-type="paper">Paper</button>
+    <button class="rps-choice" data-rps-type="scissors">Scissors</button>
+</div>
+<div class="announcement"></div>
 <div class="results-text"></div>
 <body>
     <script>
@@ -73,6 +88,53 @@
 
             return roundResult(playerWin, playerSelectionLowerCase, computerSelectionLowerCase);
         }
+        let gamesPlayed = 0;
+        let totalRounds = 5;
+
+
+        function addFinalResultToScreen(finalResult)
+        {
+            const results = document.querySelector(".results-text");
+
+            let refreshMessage = document.createElement("p");
+            refreshMessage.innerText = "Refresh to play again";
+            results.prepend(refreshMessage);    
+
+            let result = document.createElement("p");
+            result.innerText = finalResult;
+            result.style.fontWeight = "bold"; // ie highlight latest result by  adding inline style
+            result.style.fontSize = "1.5em";
+            results.prepend(result);    // add to top of list
+        }
+
+        function outputFinalResult() {
+        let playerWins = document.querySelector(".player-score").querySelector(".score-number").innerText;
+        let computerWins = document.querySelector(".computer-score").querySelector(".score-number").innerText;
+        let computerFinalWin = false;
+        let playerFinalWin = false;
+        if (playerWins > computerWins) playerFinalWin = true;
+        else if (computerWins > playerWins) computerFinalWin = true;
+
+        //console.log("Final Score:\nPlayer " + playerWins + ", Computer " + computerWins)
+        if (playerFinalWin === true) addFinalResultToScreen("Player Wins!")
+        else if (computerFinalWin === true) addFinalResultToScreen("Computer Wins!")
+        else addFinalResultToScreen("Draw!")
+}
+
+
+        function declareWinner(gamesPlayed, totalRounds){
+            if (gamesPlayed == totalRounds){
+                outputFinalResult();
+                rpsChoice.forEach(key => key.removeEventListener("click", playRoundListener))
+            }
+        }
+
+        function updateResults(roundResult){
+            declareWinner(++gamesPlayed, totalRounds);
+            if (roundResult === "Draw!") return;
+            else if (roundResult.substring(0, 7) == "You win") document.querySelector(".player-score").querySelector(".score-number").innerText++;
+            else document.querySelector(".computer-score").querySelector(".score-number").innerText++;
+        }
 
         function addRoundResultToScreen(roundResult)
         {
@@ -89,7 +151,10 @@
         function playRoundListener(e){
             const playerSelection = this.dataset.rpsType;            
             const computerSelection = computerPlay();
-            addRoundResultToScreen(playRound(playerSelection, computerSelection));
+            const roundResult = playRound(playerSelection, computerSelection)
+            addRoundResultToScreen(roundResult);
+            updateResults(roundResult)
+            
         }
 
         const rpsChoice = document.querySelectorAll(".rps-choice");
