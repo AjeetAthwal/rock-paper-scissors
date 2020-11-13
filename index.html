@@ -5,7 +5,9 @@
 
     <title>Rock Paper Scissors</title>
 </head>
-
+<button class="rps-choice" data-rps-type="rock">Rock</button>
+<button class="rps-choice" data-rps-type="paper">Paper</button>
+<button class="rps-choice" data-rps-type="scissors">Scissors</button>
 <body>
     <script>
         // generates a computer move in rock paper scissors
@@ -71,40 +73,15 @@
             return roundResult(playerWin, playerSelectionLowerCase, computerSelectionLowerCase);
         }
 
-        // outputs final result given score statistics
-        function outputFinalResult(playerWins, draws, computerWins) {
-            let computerFinalWin = false;
-            let playerFinalWin = false;
-            if (playerWins > computerWins) playerFinalWin = true;
-            else if (computerWins > playerWins) computerFinalWin = true;
-
-            console.log("Final Score:\nPlayer " + playerWins + ", Computer " + computerWins + ", Draws " + draws)
-            if (playerFinalWin === true) console.log("Player Wins!")
-            else if (computerFinalWin === true) console.log("Computer Wins!")
-            else console.log("Draw!")
+        function playRoundListener(e){
+            const playerSelection = this.dataset.rpsType;            
+            const computerSelection = computerPlay();
+            console.log(playRound(playerSelection, computerSelection));
         }
 
-        // play 5 rounds and output results
-        function game() {
-            let totalRounds = 5;
-            let playerWins = 0;
-            let computerWins = 0;
-            let draws = 0;
-
-            // play totalRound number of rounds
-            for (let roundNumber = 0; roundNumber < totalRounds; roundNumber++) {
-                let playerSelection = prompt("ROCK, PAPER, SCISSORS GO!");
-                let computerSelection = computerPlay();
-                let result = playRound(playerSelection, computerSelection);
-                console.log(result);
-                if (result === "Draw!") draws++;
-                else if (result.substring(0, 7) == "You win") playerWins++;
-                else computerWins++;
-            }
-
-            outputFinalResult(playerWins, draws, computerWins)
-        }
-        game()
+        const rpsChoice = document.querySelectorAll(".rps-choice");
+        console.log(rpsChoice)
+        rpsChoice.forEach(key => key.addEventListener("click", playRoundListener))
     </script>
 </body>
 
