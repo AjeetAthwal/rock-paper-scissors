@@ -77,9 +77,13 @@
         function addRoundResultToScreen(roundResult)
         {
             const results = document.querySelector(".results-text");
+            if (results.querySelector("p") !== null){
+                results.querySelector("p").removeAttribute("style"); // remove inline style for previous latest result
+            }
             let result = document.createElement("p");
             result.innerText = roundResult;
-            results.append(result);
+            result.style.fontWeight = "bold"; // ie highlight latest result by  adding inline style
+            results.prepend(result);    // add to top of list
         }
 
         function playRoundListener(e){
